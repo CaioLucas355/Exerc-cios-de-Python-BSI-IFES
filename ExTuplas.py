@@ -1,4 +1,4 @@
-import random
+
 # =========================================
 # EXERCÍCIOS - PARTE 1 (TUPLAS)
 # =========================================
@@ -285,3 +285,20 @@ def contWinners(apostas, n_sorteados):
 # -----------------------------------------
 # Simular sequência de números aleatórios
 # e o usuário deve repetir corretamente
+import random
+def genius():
+    print("Bem Vindo ao Jogo do Genius!");
+    n_sorteado = str(random.randint(1,4));
+    seq_sort = n_sorteado;
+    print(f"O Primeiro Número é: {n_sorteado}");
+    
+    g = input();
+    while g == n_sorteado:
+        limparTela();
+        seq_sort = seq_sort + n_sorteado;
+        n_sorteado = str(random.randint(1,4));
+        print(f"O Próximo Número é: {n_sorteado}\n");
+        g = input();
+    print(f"Você errou, tente novamente mais tarde!");
+    
+    

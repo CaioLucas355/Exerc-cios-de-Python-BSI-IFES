@@ -8,6 +8,7 @@ Depois:
 - Remova menores de idade
 - Imprima nome e telefone dos restantes
 """
+
 def remover_menores(listaTele):
     remover = [];
     for key in listaTele:
@@ -43,7 +44,6 @@ def q1():
         
 # =========================================
 # Q2 - Agenda
-# =========================================
 """
 Sistema de agenda com menu:
 1 - Cadastrar contato (nome + telefone)
@@ -53,30 +53,68 @@ Regras:
 - Armazenar em dicionário
 - Salvar em arquivo texto
 """
+# =========================================
+def q2():
+    agenda();
+
+def agenda():
+    ordem = { 1: cadastrarNovoContato(contatos), 2: visualizarContatos(contatos)}
+    on = True;
+    contatos = {}
+    
+    while on:
+        menu()
+        ord = int(input());
+        if ord == 0:
+            on = False;
+        if ord in ordem:
+            ordem[ord]();
+        else:
+            print("Opção Inválida, tente novamente!\n>:")
+                  
+def cadastrarNovoContato(contatos):
+    nome = input("Digite o NOME do Contato\n>:")
+    tel = input("Digite o TELEFONE do Contato\n>:")
+    contatos[nome] = tel;
+    print("Cadastro Realizado!")
+
+def visualizarContatos(contatos):
+    if not contatos:
+        print("Nenhum contato cadastrado.")
+        return
+    print("\nLista de Contatos:")
+    for nome in contatos:
+        print(f"Nome: {nome} - Número: {contatos[nome]}");
+    
 def menu():
-    print("""
+    welcome = """
 Bem Vindo a sua Agenda Pessoal!
 \tO que deseja fazer?
-
-1) Cadastrar um novo contato
-2) Visualizar todos os contatos
-
+\t\t1) Cadastrar um novo contato
+\t\t2) Visualizar todos os contatos
+\t\t0) Fechar agenda
 Digite o Número da escolha abaixo
-          """)
-def q2():
-    menu();
-    
+          """;
+    print(welcome);
+        
 
 
 # =========================================
 # Q3 - Bolão
 # =========================================
+import os
 """
 Adaptar sistema do bolão:
 - Usar dicionário ao invés de lista
 - Salvar dados em arquivo binário
 - Carregar dados ao iniciar
 """
+def limparTela():
+    if os.name == "nt":
+        os.system("cls");
+    else:
+        os.system("clear");
+# -------------------------------
 
 def q3():
     pass
@@ -87,7 +125,6 @@ def q3():
 # =========================================
 """
 Funções:
-
 (a) Listar candidatos classificados (nota >= 60)
 (b) Mostrar aprovado por área:
     - Maior nota total
@@ -95,11 +132,49 @@ Funções:
 """
 
 def q4_a(candidatos, areas, codigo_area):
-    pass
+    seq = [];
+    inscritos = areas[codigo_area][1];
+    for numInsc in inscritos:
+        nota1 = candidatos[numInsc][2];
+        if nota1 >= 60:
+            seq.append(numInsc);
+    return seq;
 
 def q4_b(candidatos, areas):
-    pass
-
+    print("Lista de Candidatos Aprovados de Cada Área:\n");
+    for codArea in areas:
+        candi = q1(candidatos,areas,codArea);
+        nMaior = 0;
+        aprov ="";
+        Flag = True;
+        for nInsc in candi:
+            nome, data, p1, p2 = candidatos[nInsc];
+            nFinal = p1 + p2;
+            if(Flag):
+                Adata = data;
+                nMaior = nFinal;
+                aprov = nome;
+                Flag = False
+            elif(nMaior < nFinal):
+                Adata = data;
+                nMaior = nFinal;
+                aprov = nome;
+            elif(nMaior == nFinal):
+                dia0 , mes0, ano0 = Adata;
+                dia1, mes1, ano1 = data;
+                if(ano0 > ano1):
+                    Adata = data;
+                    nMaior = nFinal;
+                    aprov = nome;
+                elif(mes0 > mes1):
+                    Adata = data;
+                    nMaior = nFinal;
+                    aprov = nome;
+                elif(dia0 > dia1):
+                    Adata = data;
+                    nMaior = nFinal;
+                    aprov = nome;
+        print(f'\tÁrea - {codArea[0]}\tCandidato Aprovado:\t{aprov}');
 
 # =========================================
 # Q5 - Multas (Sistema de trânsito)
@@ -231,3 +306,12 @@ def q10_c(contas, contas_hackeadas, clientes):
 
 def q10_d(contas_hackeadas):
     pass
+def main():
+    
+    q2();
+    
+    
+    
+    return 0
+if __name__ == "__main__":
+    main()

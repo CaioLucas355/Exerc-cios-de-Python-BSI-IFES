@@ -184,16 +184,60 @@ def q4_b(candidatos, areas):
 (b) Calcular pontos da CNH
 (c) Verificar situação do motorista/veículo
 """
+def dataAnterior(data1, data2):
+    d1 ,m1, a1 = data1;
+    d2 , m2, a2 = data2;
+    if a1<a2:
+        return True;
+    elif a1>a2: 
+        return False;
+    elif m1<m2: 
+        return True;
+    elif m1>m2:
+        return False;
+    elif d1<d2:
+        return True;
+    return False;
 
 def q5_a(infracoes, data_atual):
-    pass
+    recentes = [];
+    dia, mes, ano = data_atual;
+    ano_passado = (dia, mes, ano-1);
+    for infracion in infracoes:
+        data_infracao = infracion[1];
+        if dataAnterior(ano_passado, data_infracao):
+            recentes.append(infracion);
+    return recentes;
 
-def q5_b(cnh, infracoes, naturezas):
-    pass
+def q5_b(cnh, data_atual, infracoes, veiculos, naturezas):
+    recentes = q5_a(infracoes ,data_atual);
+    pontos = 0;
+    plc = "";
+    for placa in veiculos:
+        cn_h, _ , _ = veiculos[placa];
+        if cn_h == cnh:
+            plc = placa;
+    for inf in recentes:
+        _ , _ , pla_ca, nivel = inf;
+        if pla_ca == plc:
+            for niv in naturezas:
+                if niv == nivel:
+                    pontos += naturezas[niv];
+    return pontos;
 
-def q5_c(cnh, placa, data_atual, infracoes, motoristas, veiculos):
-    pass
-
+def q5_c(cnh, placa, data_atual, infracoes, motoristas, veiculos,naturezas):
+    nome, data_vale = motoristas[cnh];
+    if placa not in veiculos:
+        print("Placa Não Está Cadastrada!");
+    elif(dataAnterior(data_vale, data_atual)):
+        print("CNH Vencid, prende o Bandido!");
+    elif(q5_b(cnh,data_atual, infracoes, veiculos,naturezas) > 20):
+        print("Ultrapassou o Limite de Pontos, pode prender o vagabundo! ")
+    else:
+        print(veiculos[placa][1],veiculos[placa][2])
+        print(nome);
+        print(q5_b(cnh,data_atual, infracoes, veiculos,naturezas));
+        
 
 # =========================================
 # Q6 - Academia
@@ -207,13 +251,38 @@ Funções:
 """
 
 def q6_treino(exercicios, alunos, treinos, login, grupo):
-    pass
+    print(f"Aluno: {alunos[login][0]}");
+    print(f"Aluno: {grupo}");
+    lista_exercicios = [];
+    aluno_exercicios = treinos[login];
+    for cod_exer, series, rep, group in aluno_exercicios:
+        if group ==  grupo:
+            print(f'{exercicios[cod_exer]} - {series} de {rep}');
 
-def q6_exercicios_faltantes(exercicios, treinos, login):
-    pass
+def q6_exercicios_faltantes(exercicios, treinos, alunos, login):
+    feitos = []
+    for cod, _,_,_  in treinos[login]:
+        feitos.append(cod);
+    for exer in exercicios:
+        if exer not in feitos:
+            print("Exercícios realizados:");
+            print(f'\t{exercicios[exer]}');
 
 def q6_login(alunos, exercicios, treinos):
-    pass
+    log = input("Digite seu Login\n>:")
+    password = input("Digite sua Senha\n>:")
+    if log in alunos:
+        if alunos[log][1] == password:
+           g = input("Digite o Grupo que deseja Treinar\n>:")
+           _,_,_, grupo = treinos[log];
+           if(grupo == g):
+               q6_treino(exercicios,alunos, treinos,log,g); 
+           else:
+               print("Esse grupo não está cadastrado para você!")
+        else:
+            print("Senha Incorreta")
+    else:
+        print("Usuário não cadastrado!")
 
 
 # =========================================

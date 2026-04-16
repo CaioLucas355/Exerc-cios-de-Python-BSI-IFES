@@ -298,16 +298,44 @@ Funções:
 """
 
 def q7_a(cod_produto, clientes, produtos, pedidos):
-    pass
+    quantos = 0;
+    for pedido in pedidos:
+        (cpf , entregue, listaprodutos) = pedidos[pedido];
+        if not entregue:
+            for p_cod , qnt in listaprodutos:
+                if p_cod == cod_produto:
+                    quantos += qnt;
+    for produto in produtos:
+        _ , _, estoque = produtos[produto];
+        if estoque == quantos or estoque > quantos:
+            return True;
+    return False;
 
 def q7_b(cod_pedido, clientes, produtos, pedidos):
-    pass
-
+    print(f"Pedido #{cod_pedido}:");
+    for pedido in pedidos:
+        if pedido == cod_pedido:
+            _,_, lista_pedidos = pedidos[pedido];
+            for cod_produto, quantidade in lista_pedidos:
+                print(f"-{produtos[cod_produto[1]]}");
+                print(f"\tQtd: {quantidade}");
+                print(f"\tValor unitário: R${produtos[cod_produto[0]]:.1f}");
+                print(f"\tValor total: R${produtos[cod_produto[0] * quantidade]:.1f}");
+                
 def q7_c(cod_pedido, produtos, pedidos):
-    pass
+    valor_total = 0.0;
+    for pedido in pedidos:
+        if pedido == cod_pedido:
+             _,_, lista_pedidos = pedidos[pedido];
+             for cod_produto, quantidade in lista_pedidos:
+                valor_total += produtos[cod_produto[0]] * quantidade;
 
 def q7_d(clientes, produtos, pedidos):
-    pass
+    for pedido in pedidos:
+        cpf, pago, lista = pedidos[pedido];
+        if pago == True:
+            valorPago = q7_c(pedido, produtos, pedidos);
+            print(f'{clientes[cpf][0]} - {valorPago:.2f}');
 
 
 # =========================================

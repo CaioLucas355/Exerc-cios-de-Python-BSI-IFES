@@ -39,7 +39,6 @@ def q1():
     
     remover_menores(listaTelefonica);
     imprimirListaTele(listaTelefonica);
-         
         
         
 # =========================================
@@ -71,7 +70,6 @@ def agenda():
             ordem[ord]();
         else:
             print("Opção Inválida, tente novamente!\n>:")
-                  
 def cadastrarNovoContato(contatos):
     nome = input("Digite o NOME do Contato\n>:")
     tel = input("Digite o TELEFONE do Contato\n>:")
